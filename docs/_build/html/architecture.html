@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Architecture Overview &#8212; Capstone Portfolio Documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=2fd9655e" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
+    <script src="_static/documentation_options.js?v=8d563738"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Portfolio Application" href="reference/portfolio.html" />
+    <link rel="prev" title="Quickstart" href="quickstart.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="architecture-overview">
+<h1>Architecture Overview<a class="headerlink" href="#architecture-overview" title="Link to this heading">¶</a></h1>
+<p>The Capstone Portfolio project demonstrates a production-friendly Django
+architecture optimised for storytelling-driven marketing sites.</p>
+<section id="application-layers">
+<h2>Application Layers<a class="headerlink" href="#application-layers" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Presentation</strong> — Class-based views and templates render curated content
+slices while keeping the experience fast and accessible.</p></li>
+<li><p><strong>Domain</strong> — Django models capture services, projects, testimonials, and
+inbound leads with reusable querysets that power the UI metrics.</p></li>
+<li><p><strong>Interaction</strong> — Forms provide defensive validation to guard against
+low-quality submissions while keeping the experience frictionless.</p></li>
+</ul>
+</section>
+<section id="static-assets">
+<h2>Static Assets<a class="headerlink" href="#static-assets" title="Link to this heading">¶</a></h2>
+<p>A lightweight Tailwind-inspired stylesheet lives in <code class="docutils literal notranslate"><span class="pre">static/css/styles.css</span></code> and
+is served via Django’s staticfiles framework. <code class="docutils literal notranslate"><span class="pre">collectstatic</span></code> will populate the
+<code class="docutils literal notranslate"><span class="pre">staticfiles</span></code> directory at build time.</p>
+</section>
+<section id="observability">
+<h2>Observability<a class="headerlink" href="#observability" title="Link to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">settings.py</span></code> is configured with a console logger that can be extended to send
+structured logs to a log aggregation platform in production.</p>
+</section>
+<section id="extensibility">
+<h2>Extensibility<a class="headerlink" href="#extensibility" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Add new sections by creating additional templates and updating
+<code class="docutils literal notranslate"><span class="pre">HomePageView.get_context_data</span></code>.</p></li>
+<li><p>Integrate a CMS by swapping the Django ORM models with an API client layer
+while reusing the existing forms and views.</p></li>
+<li><p>Replace the SQLite database with PostgreSQL by updating the <code class="docutils literal notranslate"><span class="pre">DATABASES</span></code>
+setting and injecting credentials via environment variables or Docker secrets.</p></li>
+</ul>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Capstone Portfolio</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quickstart</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Architecture Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#application-layers">Application Layers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#static-assets">Static Assets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#observability">Observability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#extensibility">Extensibility</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference/portfolio.html">Portfolio Application</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference/settings.html">Project Settings</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="quickstart.html" title="previous chapter">Quickstart</a></li>
+      <li>Next: <a href="reference/portfolio.html" title="next chapter">Portfolio Application</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.2.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="_sources/architecture.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

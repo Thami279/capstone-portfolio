@@ -1,0 +1,127 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Capstone Portfolio{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="container">
+        <p class="eyebrow">Award-winning Django delivery</p>
+        <h2>Results-driven digital products for ambitious teams.</h2>
+        <p>We orchestrate strategy, design, and engineering to ship impactful experiences. Explore a curated snapshot of our work and connect with us to unlock your next milestone.</p>
+        <a class="btn" href="#contact">Start a project</a>
+    </div>
+</section>
+
+<section id="metrics" class="metrics">
+    <div class="container grid">
+        <div class="metric-card">
+            <span class="metric-value">{{ metrics.projects }}</span>
+            <span class="metric-label">Projects delivered</span>
+        </div>
+        <div class="metric-card">
+            <span class="metric-value">{{ metrics.clients }}</span>
+            <span class="metric-label">Clients partnered</span>
+        </div>
+        <div class="metric-card">
+            <span class="metric-value">{{ metrics.testimonials }}</span>
+            <span class="metric-label">Client testimonials</span>
+        </div>
+    </div>
+</section>
+
+<section id="services" class="section">
+    <div class="section-heading container">
+        <h3>Services</h3>
+        <p>Battle-tested capabilities to support the full product lifecycle from discovery to scale.</p>
+    </div>
+    <div class="container grid">
+        {% for service in services %}
+            <article class="card">
+                <h4>{{ service.title }}</h4>
+                <p>{{ service.summary }}</p>
+            </article>
+        {% empty %}
+            <p>Services will be announced soon.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section id="projects" class="section">
+    <div class="section-heading container">
+        <h3>Highlighted projects</h3>
+        <p>A selection of engagements that demonstrate our focus on measurable value.</p>
+    </div>
+    <div class="container grid">
+        {% for project in featured_projects %}
+            <article class="project-card">
+                <h4>{{ project.title }}</h4>
+                <p class="project-summary">{{ project.summary }}</p>
+                <p class="project-meta">{{ project.client_name }} · {{ project.get_status_display }} · {{ project.start_date|date:"Y" }}</p>
+                {% if project.tags.all %}
+                    <div class="tag-list">
+                        {% for tag in project.tags.all %}
+                            <span class="tag" style="--tag-color: {{ tag.color }}">{{ tag.name }}</span>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </article>
+        {% empty %}
+            <p>Case studies are being crafted. Check back shortly.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section id="testimonials" class="section testimonials">
+    <div class="section-heading container">
+        <h3>Testimonials</h3>
+        <p>Real feedback from partners who put their trust in our delivery teams.</p>
+    </div>
+    <div class="container grid">
+        {% for testimonial in testimonials %}
+            <blockquote class="testimonial-card">
+                <p>“{{ testimonial.quote }}”</p>
+                <cite>{{ testimonial.client_name }}, {{ testimonial.client_role }}</cite>
+            </blockquote>
+        {% empty %}
+            <p>Testimonials will appear here after our next launch.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section id="contact" class="section contact">
+    <div class="container">
+        <div class="section-heading">
+            <h3>Start a conversation</h3>
+            <p>Tell us about your vision and we will outline a roadmap tailored to your needs.</p>
+        </div>
+        <form method="post" novalidate>
+            {% csrf_token %}
+            <div class="form-grid">
+                {{ form.non_field_errors }}
+                <div class="form-field">
+                    {{ form.name.label_tag }}
+                    {{ form.name }}
+                    {{ form.name.errors }}
+                </div>
+                <div class="form-field">
+                    {{ form.email.label_tag }}
+                    {{ form.email }}
+                    {{ form.email.errors }}
+                </div>
+                <div class="form-field">
+                    {{ form.company.label_tag }}
+                    {{ form.company }}
+                    {{ form.company.errors }}
+                </div>
+                <div class="form-field full">
+                    {{ form.message.label_tag }}
+                    {{ form.message }}
+                    {{ form.message.errors }}
+                </div>
+            </div>
+            <button type="submit" class="btn">Send message</button>
+        </form>
+    </div>
+</section>
+{% endblock %}
