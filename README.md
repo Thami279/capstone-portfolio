@@ -1,115 +1,133 @@
 # Capstone Portfolio
 
-A production-ready Django portfolio showcasing client work with a container-first workflow, automated tests, and Sphinx documentation.
+A production-ready Django portfolio experience showcasing high-impact client work,
+complete with automated tests, Sphinx documentation, and a container-first delivery
+workflow.
 
-## Prerequisites
+## Quick Start
 
-- Python 3.12+
-- Docker and Docker Compose (for container workflow)
-- Node.js is **not** required
+### Option 1: Docker (Recommended)
 
-Clone the repository or download the ZIP:
+1. **Prerequisites**: Install [Docker Desktop](https://www.docker.com/products/docker-desktop/)
 
-```bash
-git clone https://github.com/Thami279/capstone-portfolio.git
-cd capstone-portfolio
-```
+2. **Clone and setup**:
+   ```bash
+   git clone <your-repo-url>
+   cd capstone-portfolio
+   cp env.example .env
+   ```
 
-## Local Development (venv)
+3. **Generate secret key**:
+   ```bash
+   python3 -c "import secrets; print(secrets.token_urlsafe(50))"
+   ```
+   Copy the output and paste it into `.env` for `DJANGO_SECRET_KEY`
 
-1. Create and activate a virtual environment.
+4. **Launch the application**:
+   ```bash
+   docker compose up --build
+   ```
+
+5. **Access the application**:
+   - Portfolio: http://127.0.0.1:8000
+   - Health check: http://127.0.0.1:8000/health/
+
+### Option 2: Local Development
+
+1. **Prerequisites**: Python 3.11+, PostgreSQL
+
+2. **Setup virtual environment**:
    ```bash
    python3 -m venv venv
-   source venv/bin/activate
-   python -m pip install --upgrade pip
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   pip install --upgrade pip
    pip install -r requirements.txt
    ```
-2. Prepare the database and run the automated tests.
+
+3. **Configure database**:
+   - Install PostgreSQL and create a database
+   - Update `capstone_portfolio/settings.py` with your database credentials
+
+4. **Run migrations and tests**:
    ```bash
    python manage.py migrate
    python manage.py test
    ```
-3. Start the development server.
+
+5. **Start development server**:
    ```bash
    python manage.py runserver
    ```
-4. Visit `http://127.0.0.1:8000/`.
 
-## Environment Configuration
+## Environment Variables
 
-Copy the example file and adjust values before running in production:
-
-```bash
-cp env.example .env
-```
-
-Set at minimum:
-- `DJANGO_SECRET_KEY`: generate with `python -c "import secrets; print(secrets.token_urlsafe(50))"`
-- `DJANGO_ALLOWED_HOSTS`: comma-separated hostnames (e.g. `127.0.0.1,localhost`)
-- `DATABASE_URL`: optional, defaults to SQLite for local development
-- `DJANGO_DEBUG`: `True` for local debugging, `False` for production
-
-Never commit `.env` or secrets; `.gitignore` already excludes them.
-
-## Documentation
-
-Sphinx sources live in `docs/` and the generated HTML output is tracked in `docs/_build/html`.
+Create a `.env` file with these variables:
 
 ```bash
-sphinx-build -b html docs docs/_build/html
-open docs/_build/html/index.html  # macOS (optional)
+DJANGO_SECRET_KEY=your-secret-key-here
+DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1
+DJANGO_DEBUG=False
+POSTGRES_DB=capstone
+POSTGRES_USER=capstone
+POSTGRES_PASSWORD=capstone
 ```
 
-If Sphinx is not available globally, install it into the active virtual environment:
-
-```bash
-pip install -r docs/requirements.txt
-```
-
-## Docker Workflow
-
-1. Copy environment defaults then set production-ready values.
-   ```bash
-   cp env.example .env
-   ```
-2. Build and run the stack (Django + Gunicorn, PostgreSQL, Nginx):
-   ```bash
-   docker compose up --build
-   ```
-3. Wait until the `web` container reports that migrations ran successfully, then visit `http://127.0.0.1:8000`.
-
-To run management commands inside the container:
-
-```bash
-docker compose exec web python manage.py <command>
-```
-
-Persistent Docker volumes:
-- `postgres_data`: PostgreSQL data files
-- `static_data`: collected static assets
-- `media_data`: uploaded media
+**Important**: Never commit the `.env` file to version control.
 
 ## Testing
 
+Run the test suite:
 ```bash
+# With Docker
+docker compose exec web python manage.py test
+
+# Local development
 python manage.py test
 ```
 
-For containerised tests:
+## Documentation
 
-```bash
-docker compose exec web python manage.py test
+View the generated Sphinx documentation:
+- Open `docs/_build/html/index.html` in your browser
+- Or rebuild: `cd docs && pip install -r requirements.txt && make html`
+
+## Project Structure
+
+```
+capstone-portfolio/
+├── capstone_portfolio/     # Django project settings
+├── portfolio/             # Main application
+├── templates/             # HTML templates
+├── static/               # CSS, JS, images
+├── docs/                 # Sphinx documentation
+├── nginx/                # Nginx configuration
+├── Dockerfile            # Container definition
+├── docker-compose.yml    # Multi-service orchestration
+└── requirements.txt      # Python dependencies
 ```
 
-## Deployment Checklist
+## Features
 
-- Configure production database credentials and allowed hosts in `.env`.
-- Collect static files with `python manage.py collectstatic`.
-- Provision HTTPS for Nginx and update container environment variables.
-- Set up health checks (e.g. `/health/`) if required by your hosting provider.
+- **Portfolio Management**: Showcase projects, services, and testimonials
+- **Contact Form**: Lead capture with validation
+- **Responsive Design**: Mobile-first CSS framework
+- **Health Monitoring**: `/health/` endpoint for uptime checks
+- **Production Ready**: Gunicorn, Nginx, PostgreSQL
+- **Comprehensive Testing**: Unit tests for models and views
+- **Documentation**: Auto-generated Sphinx docs
 
-## Repository Notes
+## Deployment
 
-- Documentation is maintained on the `docs` branch and merged into `main`.
-- Docker support lives on the `container` branch and is merged into `main`.
-- The public repository URL is stored in `capstone.txt`.
+For production deployment:
+
+1. **Set strong secrets** in your environment
+2. **Configure HTTPS** termination
+3. **Use managed database** (AWS RDS, Google Cloud SQL, etc.)
+4. **Set up static file storage** (AWS S3, etc.)
+5. **Configure monitoring** and logging
+
+## Support
+
+- View documentation in `docs/_build/html/`
+- Check logs: `docker compose logs -f`
+- Run health check: `curl http://127.0.0.1:8000/health/`
